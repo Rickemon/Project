@@ -1,0 +1,47 @@
+﻿@page
+@model Project.Pages.AdminPages.OrderDetailsAmmending.ViewOrderDetailsModel
+@{
+}
+<h1>:: View Stock ::</h1>
+<br />
+<br />
+
+<div>
+    <table class="table table-active">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Orders[0].OrderID)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Orders[0].ProductID)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Orders[0].Quantity)
+                </th>
+                <th>
+                    Actions
+                </th>
+
+
+                <continue!>
+
+            </tr>
+        </thead>
+
+
+        @for (int i = 0; i < Model.Orders.Count; i++)
+        {
+            <tr>
+                <td>@Model.Orders[i].OrderID</td>
+                <td>@Model.Orders[i].ProductID</td>
+                <td>@Model.Orders[i].Quantity</td>
+                <td>
+                    <a asp-page="/AdminPages/OrderDetailsAmmending/UpdateOrderDetails" asp-route-id="@Model.Orders[i].OrderID">Update</a>
+                    <a asp-page="/AdminPages/OrderDetailsAmmending/DeleteOrderDetails" asp-route-id="@Model.Orders[i].OrderID">Delete</a>
+                </td>
+                <continue!>
+            </tr>
+        }
+    </table>
+</div>

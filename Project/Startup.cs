@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
@@ -8,6 +8,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Project.Data;
 
 namespace Project
 {
@@ -24,6 +26,15 @@ namespace Project
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
+            services.AddSession(o => {
+                o.IdleTimeout = TimeSpan.FromSeconds(120);//change 120 to any timespan
+                o.Cookie.HttpOnly = true;
+                o.Cookie.IsEssential = true;
+
+            });
+
+            services.AddDbContext<ProjectContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("ProjectContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,6 +57,8 @@ namespace Project
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {
