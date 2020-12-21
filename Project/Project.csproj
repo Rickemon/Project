@@ -21,4 +21,10 @@
     <PackageReference Include="PdfSharpCore" Version="1.2.10" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Pages\UserPages\PlaceOrder - Copy.cshtml.cs">
+      <DependentUpon>PlaceOrder.cshtml.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
 </Project>

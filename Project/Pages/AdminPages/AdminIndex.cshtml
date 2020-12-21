@@ -4,11 +4,11 @@
 }
 <h1>:: Admin Main Page ::</h1>
 <br />
-<h2> Welcome @Model.Name</h2>
+<h2> Welcome @Model.SessionUsername</h2>
 
 
 <p><a asp-page="/Logout/Logout">Logout</a></p>
-<p><a asp-page="/AdminPages/UserAmmending/ViewCustomers">View Customers</a></p>
-<p><a asp-page="/AdminPages/StockAmmending/ViewStock">View Stock</a></p>
-<p><a asp-page="/AdminPages/OrderAmmending/ViewOrder">View Orders</a></p>
-<p><a asp-page="/AdminPages/OrderDetailsAmmending/ViewOrderDetails">View Order Details</a></p>
+<p><a asp-page="/Customer/ViewCustomers">View Customers</a></p>
+<p><a asp-page="/Inventory/ViewStock">View Stock</a></p>
+<p><a asp-page="/Deliveries/ViewOrder">View Orders</a></p>
+<p><a asp-page="/DeliveryDetails/ViewOrderDetails">View Order Details</a></p>

@@ -1,0 +1,52 @@
+﻿@page
+@model Project.Pages.Deliveries.ViewOrder
+@{
+}
+<h1>:: View Orders ::</h1>
+<br />
+<br />
+
+<div>
+    <table class="table table-active">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Order[0].OrderID)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Order[0].Username)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Order[0].ScheduledDeliveryDate)
+                </th>
+                <th>
+                    Actions
+                </th>
+
+
+                <continue!>
+
+            </tr>
+        </thead>
+
+
+        @for (int i = 0; i < Model.Order.Count; i++)
+        {
+            <tr>
+                <td>@Model.Order[i].OrderID</td>
+                <td>@Model.Order[i].Username</td>
+                <td>@Model.Order[i].ScheduledDeliveryDate</td>
+                <td>
+                    <a asp-page="/Deliveries/UpdateOrder" asp-route-id="@Model.Order[i].OrderID">Update</a>
+                    <a asp-page="/Deliveries/DeleteOrder" asp-route-id="@Model.Order[i].OrderID">Delete</a>
+                </td>
+                <continue!>
+            </tr>
+        }
+    </table>
+    
+</div>
+
+<div>
+    <a target="_blank" asp-route-pdf="1">PDF Report</a>
+</div>

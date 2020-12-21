@@ -1,0 +1,29 @@
+﻿@page
+@model Project.Pages.OrderAttributes.DeleteOrderDetails
+@{
+}
+<h1>:: Delete Stock Page ::</h1>
+
+<h2 class="text-danger">Are you sure want to delete the record?</h2>
+
+<div class="table-active">
+
+    <div>
+        <label asp-for="Items.Order_ID"></label>
+        <span> : </span>
+        @Model.Items.Order_ID
+    </div>
+    <div>
+        <label asp-for="Items.Product_ID"></label>
+        <span> : </span>
+        @Model.Items.Product_ID
+    </div>
+    <br />
+    <div>
+        <form method="post">
+            <input type="hidden" asp-for="Items.Order_ID" />
+            <input type="hidden" asp-for="Items.Product_ID" />
+            <input type="submit" value="Delete" class="btn btn-danger" />
+        </form>
+    </div>
+</div>

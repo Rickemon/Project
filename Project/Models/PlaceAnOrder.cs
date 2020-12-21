@@ -6,19 +6,17 @@ using System.Threading.Tasks;
 
 namespace Project.Models
 {
-    public class OrderDetails
+    public class PlaceAnOrder
     {
         [Key]
         [Display(Name = "OrderID")]
-        public int Order_ID { get; set; }
+        public int OrderID { get; set; }
         [Key]
         [Display(Name = "ProductID")]
-        public int Product_ID { get; set; }
+        public int ProductID { get; set; }
         [Display(Name = "Quantity")]
         public int Quantity { get; set; }
-        [Display(Name = "Username")]
-        public string Username { get; set; }
-        [Display(Name = "ProductName")]
-        public string ProductName { get; set; }
+
+
     }
 }

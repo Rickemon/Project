@@ -1,0 +1,55 @@
+﻿@page
+@model Project.Pages.DeliveryDetails.ViewOrderDetails
+@{
+}
+<h1>:: View Order Details ::</h1>
+<br />
+<br />
+
+<div>
+    <table class="table table-active">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Items[0].Order_ID)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Items[0].Username)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Items[0].Product_ID)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Items[0].ProductName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Items[0].Quantity)
+                </th>
+                <th>
+                    Actions
+                </th>
+
+
+                <continue!>
+
+            </tr>
+        </thead>
+
+
+        @for (int i = 0; i < Model.Items.Count; i++)
+        {
+    <tr>
+        <td>@Model.Items[i].Order_ID</td>
+        <td>@Model.Items[i].Username</td>
+        <td>@Model.Items[i].Product_ID</td>
+        <td>@Model.Items[i].ProductName</td>
+        <td>@Model.Items[i].Quantity</td>
+        <td>
+            <a asp-page="/DeliveryDetails/UpdateOrderDetails" asp-route-id="@Model.Items[i].Order_ID" asp-route-ProductID="@Model.Items[i].Product_ID">Update</a>
+            <a asp-page="/DeliveryDetails/DeleteOrderDetails" asp-route-id="@Model.Items[i].Order_ID" asp-route-ProductID="@Model.Items[i].Product_ID">Delete</a>
+        </td>
+        <continue!>
+    </tr>
+        }
+    </table>
+</div>

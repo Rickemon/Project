@@ -14,13 +14,20 @@ namespace Project.Pages.Login
     public class LoginModel : PageModel
     {
         [BindProperty]
-        public Users Users { get; set; }
+        public UserLogin Login { get; set; }
         public string Message { get; set; }
 
+        public string SessionUsername;
+        public const string SessionKeyName1 = "SessionUsername";
+
         public string SessionID;
+        public const string SessionKeyName2 = "SessionID";
+
+        public string SessionRole;
+        public const string SessionKeyName3 = "SessionRole";
 
 
-        
+
 
         public IActionResult OnPost()
         {
@@ -36,39 +43,32 @@ namespace Project.Pages.Login
             SqlConnection conn = new SqlConnection(DbConnection);
             conn.Open();
 
-            Console.WriteLine(Users.Username);
-            Console.WriteLine(Users.Password);
-
-
             using (SqlCommand command = new SqlCommand())
             {
                 command.Connection = conn;
-                command.CommandText = @"SELECT Name, Username, Role FROM Users WHERE Username = @UName AND Password = @Pwd";
+                command.CommandText = @"SELECT Role FROM Users WHERE Username = @UName AND Password = @Pwd";
 
-                command.Parameters.AddWithValue("@UName", Users.Username);
-                command.Parameters.AddWithValue("@Pwd", Users.Password);
+                command.Parameters.AddWithValue("@UName", Login.Username);
+                command.Parameters.AddWithValue("@Pwd", Login.Password);
 
                 var reader = command.ExecuteReader();
 
                 while (reader.Read())
                 {
-                    Users.Name = reader.GetString(0);
-                    Users.Username = reader.GetString(1);
-                    Users.Role = reader.GetString(2);
+                    Login.Role = reader.GetString(0);
                 }
 
 
             }
 
-            if (!string.IsNullOrEmpty(Users.Name))
+            if (!string.IsNullOrEmpty(Login.Role))
             {
                 SessionID = HttpContext.Session.Id;
-                HttpContext.Session.SetString("sessionID", SessionID);
-                HttpContext.Session.SetString("username", Users.Username);
-                HttpContext.Session.SetString("name", Users.Name);
-               
+                HttpContext.Session.SetString("SessionUsername", Login.Username);
+                HttpContext.Session.SetString("SessionID", SessionID);
+                HttpContext.Session.SetString("SessionRole", Login.Role);
 
-                if (Users.Role == "User")
+                if (Login.Role == "Customer")
                 {
                     return RedirectToPage("/UserPages/UserIndex");
                 }
@@ -81,11 +81,32 @@ namespace Project.Pages.Login
             }
             else
             {
-                Message = "Invalid Username and Password!";
+                Message = "Invalid Username or Password!";
                 return Page();
             }
 
 
+
+        }
+        public IActionResult OnGet()
+        {
+            SessionUsername = HttpContext.Session.GetString(SessionKeyName1);
+            SessionID = HttpContext.Session.GetString(SessionKeyName2);
+            SessionRole = HttpContext.Session.GetString(SessionKeyName3);
+
+            if (string.IsNullOrEmpty(SessionUsername) && string.IsNullOrEmpty(SessionID) && string.IsNullOrEmpty(SessionRole))
+            {
+                
+                return Page();
+            }
+            if (SessionRole == "Customer")
+            {
+                return RedirectToPage("/UserPages/UserIndex");
+            }
+            else {
+                return RedirectToPage("/AdminPages/AdminIndex");
+            }
+            
 
         }
     }

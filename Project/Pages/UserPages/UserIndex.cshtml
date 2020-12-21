@@ -4,7 +4,12 @@
 }
 <h1>:: User Main Page ::</h1>
 <br />
-<h2> Welcome @Model.Name</h2>
-
+<h2> Welcome @Model.SessionUsername</h2>
+<img src="@Model.FilePath" width="100" height="100">
 
 <p><a asp-page="/Logout/Logout">Logout</a></p>
+<p><a asp-page="/UserPages/PlaceOrder">Place an order</a></p>
+<p><a asp-page="/UserPages/ViewOrder">View orders</a></p>
+<p><a asp-page="/Customer/UpdateCustomer" asp-route-id="@Model.SessionUsername">Edit profile</a></p>
+<p><a asp-page="/Customer/DeleteCustomer" asp-route-id="@Model.SessionUsername">Delete profile</a></p>
+<p><a asp-page="/Customer/UploadPicture">Update Profile Picture</a></p>

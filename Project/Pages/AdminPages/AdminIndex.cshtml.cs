@@ -10,30 +10,34 @@ namespace Project.Pages.AdminPages
 {
     public class AdminIndexModel : PageModel
     {
-        public string Username;
-        public const string SessionKeyName1 = "username";
-
-
-        public string Name;
-        public const string SessionKeyName2 = "name";
+        public string SessionUsername;
+        public const string SessionKeyName1 = "SessionUsername";
 
         public string SessionID;
-        public const string SessionKeyName3 = "sessionID";
+        public const string SessionKeyName2 = "SessionID";
 
-        public string Role;
-        public const string SessionKeyName4 = "Role";
+        public string SessionRole;
+        public const string SessionKeyName3 = "SessionRole";
 
         public IActionResult OnGet()
         {
-            Username = HttpContext.Session.GetString(SessionKeyName1);
-            Name = HttpContext.Session.GetString(SessionKeyName2);
-            SessionID = HttpContext.Session.GetString(SessionKeyName3);
+            SessionUsername = HttpContext.Session.GetString(SessionKeyName1);
+            SessionID = HttpContext.Session.GetString(SessionKeyName2);
+            SessionRole = HttpContext.Session.GetString(SessionKeyName3);
 
-            if (string.IsNullOrEmpty(Username) && string.IsNullOrEmpty(Name) && string.IsNullOrEmpty(SessionID))
+            if (string.IsNullOrEmpty(SessionUsername) && string.IsNullOrEmpty(SessionID) && string.IsNullOrEmpty(SessionRole))
             {
-                return RedirectToPage("/Login/Login");
+
+                return RedirectToPage("/Index");
             }
-            return Page();
+            if (SessionRole == "Customer")
+            {
+                return RedirectToPage("/UserPages/UserIndex");
+            }
+            else
+            {
+                return Page(); 
+            }
 
         }
 

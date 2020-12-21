@@ -2,17 +2,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Data.SqlClient;
+using Project.Models;
 using Project.Pages.DatabaseConnections;
 
-namespace Project.Pages.UserPages
+namespace Project.Pages.Deliveries
 {
-    public class UserIndexModel : PageModel
+    public class ViewOwnOrder : PageModel
     {
-        public string FilePath;
+        public List<Orders> Order { get; set; }
 
         public string SessionUsername;
         public const string SessionKeyName1 = "SessionUsername";
@@ -23,17 +25,11 @@ namespace Project.Pages.UserPages
         public string SessionRole;
         public const string SessionKeyName3 = "SessionRole";
 
-
-        public IActionResult OnGet()
+        public void OnGet()
         {
             SessionUsername = HttpContext.Session.GetString(SessionKeyName1);
             SessionID = HttpContext.Session.GetString(SessionKeyName2);
             SessionRole = HttpContext.Session.GetString(SessionKeyName3);
-
-            if (string.IsNullOrEmpty(SessionUsername) && string.IsNullOrEmpty(SessionRole) && string.IsNullOrEmpty(SessionID))
-            {
-                return RedirectToPage("/Login/Login");
-            }
 
 
             DatabaseConnection dbstring = new DatabaseConnection();
@@ -45,32 +41,27 @@ namespace Project.Pages.UserPages
             using (SqlCommand command = new SqlCommand())
             {
                 command.Connection = conn;
-                command.CommandText = @"SELECT ProfilePicture FROM Users Where Username = @SessionUsername";
+                command.CommandText = @"SELECT * FROM Orders WHERE Username = SessionUsername";
 
-                command.Parameters.AddWithValue("@SessionUsername", SessionUsername);
+                SqlDataReader reader = command.ExecuteReader(); 
 
+                Order = new List<Orders>(); 
 
-                command.ExecuteNonQuery();
-
-                SqlDataReader reader = command.ExecuteReader(); //SqlDataReader is used to read record from a table
                 while (reader.Read())
                 {
-                    FilePath = reader.GetString(0); //getting the first field from the table
+                    Orders record = new Orders(); 
+                    record.OrderID = reader.GetInt32(0); 
+                    record.Username = reader.GetString(1); 
+                    record.ScheduledDeliveryDate = reader.GetDateTime(2); 
+
+                    Order.Add(record); 
                 }
 
-                // Call Close when done reading.
                 reader.Close();
-
             }
 
-            if (SessionRole == "Customer")
-            {
-                return Page();
-            }
-            else
-            {
-                return RedirectToPage("/AdminPages/AdminIndex");
-            }
+
         }
+
     }
 }

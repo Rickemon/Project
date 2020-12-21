@@ -1,0 +1,47 @@
+﻿@page
+@model Project.Pages.Inventory.ViewStock
+@{
+}
+<h1>:: View Stock ::</h1>
+<br />
+<br />
+
+<div>
+    <table class="table table-active">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Items[0].ProductID)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Items[0].ProductName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Items[0].Price)
+                </th>
+                <th>
+                    Actions
+                </th>
+
+
+                <continue!>
+
+            </tr>
+        </thead>
+
+
+        @for (int i = 0; i < Model.Items.Count; i++)
+        {
+            <tr>
+                <td>@Model.Items[i].ProductID</td>
+                <td>@Model.Items[i].ProductName</td>
+                <td>@Model.Items[i].Price</td>
+                <td>
+                    <a asp-page="/Inventory/UpdateStock" asp-route-id="@Model.Items[i].ProductID">Update</a>
+                    <a asp-page="/Inventory/DeleteStock" asp-route-id="@Model.Items[i].ProductID">Delete</a>
+                </td>
+                <continue!>
+            </tr>
+        }
+    </table>
+</div>
